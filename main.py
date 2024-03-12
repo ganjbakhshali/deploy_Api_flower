@@ -2,7 +2,7 @@ import requests
 import argparse
 import os
 from dotenv import load_dotenv
-import fal
+#import fal
 from PIL import Image
 from io import BytesIO
 
