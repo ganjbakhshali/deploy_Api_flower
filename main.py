@@ -18,21 +18,20 @@ def save_image(image_data, filename="flower.png"):
 
 
 def generate_image(plant_name, api_key):
-    api_url = "https://fal.run/fal-ai/illusion-diffusion"
+    url = "https://54285744-illusion-diffusion.gateway.alpha.fal.ai/"
+    headers ={
+        "Authorization":f"Key {api_key}",
+        "Content_Type":"application/json"}
+    payload = {
+        "image_url": "https://storage.googleapis.com/falserverless/illusion-examples/pattern.png",
+        f"prompt": "(masterpiece:1.4), (best quality), (detailed),"+plant_name,
+        "negative_prompt": "(worst quality, poor details:1.4), lowres, (artist name, signature, watermark:1.4), bad-artist-anime, bad_prompt_version2, bad-hands-5, ng_deepnegative_v1_75t"}
 
-    illusion_diffusion_input = {
-        "prompt": f"(masterpiece:1.4), (best quality), (detailed), {plant_name}",
-        "guidance_scale": 7.5,
-        "controlnet_conditioning_scale": 1,
-        "control_guidance_end": 1,
-        "scheduler": "Euler",
-        "num_inference_steps": 40,
-        "image_size": "square_hd",
-    }
+    response = requests.post(url,headers=headers,json=payload)
 
-    response = requests.post(api_url, json=illusion_diffusion_input, headers={"Authorization": f"Bearer {api_key}"})
+
     print(f"response.status_code:{response.status_code}")
-    
+
     if response.status_code == 200:
         illusion_diffusion_output = response.json()
         if "image" in illusion_diffusion_output:
@@ -45,18 +44,20 @@ def generate_image(plant_name, api_key):
     else:
         print(f"API request failed with status code: {response.status_code}")
         print(response.text)
-    
+
     return None
 
 
 def recognize_plant(image_data, api_key):
-    url = "https://my.plantnet.org/api/identify"
-    headers = {"Api-Key": api_key}
-    files = {"images": ("image.jpg", image_data, "image/jpeg")}
-    
+    url = "https://my-api.plantnet.org/v2/identify/all"
+    headers = {}
+    payload={"api-key": api_key}
+    files = {"images":open("/content/generated_image.png","rb")}
+
     try:
-        response = requests.post(url, headers=headers, files=files)
-        response.raise_for_status()
+        response = requests.post(url, headers=headers,params=payload, files=files)
+        print(f"recognize_plant response code:{response.status_code}")
+        print(response.json)
         return response.json()["results"][0]["species"]["scientificNameWithoutAuthor"]
     except requests.exceptions.HTTPError as errh:
         print(f"HTTP Error: {errh}")
