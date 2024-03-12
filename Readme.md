@@ -57,3 +57,4 @@ The recognized plant is: Helianthus annuus
 
 ## Colab
 you can also run API.ipynb in colab
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/ganjbakhshali/deploy_Api_flower/blob/main/API.ipynb)
