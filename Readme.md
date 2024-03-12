@@ -48,7 +48,7 @@ python script_name.py "Sunflower"
 
 image generated:
 
-![image info](images/91758cec-a911-492d-8179-20608da17942.png)
+![image info](91758cec-a911-492d-8179-20608da17942.png)
 and recognised name:
 
 ```
