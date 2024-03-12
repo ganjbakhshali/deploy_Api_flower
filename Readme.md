@@ -54,3 +54,6 @@ and recognised name:
 ```
 The recognized plant is: Helianthus annuus
 ```
+
+## Colab
+you can also run API.ipynb in colab
